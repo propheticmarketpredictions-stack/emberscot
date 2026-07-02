@@ -1,0 +1,37 @@
+{
+  "name": "BusinessProfile",
+  "type": "object",
+  "properties": {
+    "company_name": {
+      "type": "string",
+      "description": "Legal or display name of the business"
+    },
+    "website": {
+      "type": "string",
+      "description": "Business website URL"
+    },
+    "logo_url": {
+      "type": "string",
+      "description": "Logo image URL"
+    },
+    "contact_email": {
+      "type": "string",
+      "format": "email"
+    },
+    "contact_phone": {
+      "type": "string"
+    },
+    "description": {
+      "type": "string",
+      "description": "Business description for their public profile"
+    },
+    "user_id": {
+      "type": "string",
+      "description": "Reference to the User account that owns this profile"
+    }
+  },
+  "required": [
+    "company_name",
+    "contact_email"
+  ]
+}

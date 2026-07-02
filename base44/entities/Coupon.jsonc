@@ -1,0 +1,144 @@
+{
+  "name": "Coupon",
+  "type": "object",
+  "properties": {
+    "title": {
+      "type": "string",
+      "description": "Coupon headline shown to customers"
+    },
+    "promo_code": {
+      "type": "string",
+      "description": "The code customers copy and use at checkout"
+    },
+    "discount_type": {
+      "type": "string",
+      "enum": [
+        "percent_off",
+        "dollar_off",
+        "bogo",
+        "free_shipping",
+        "other"
+      ],
+      "default": "percent_off"
+    },
+    "discount_value": {
+      "type": "string",
+      "description": "Human-readable discount (e.g. 20, $15, Buy One Get One)"
+    },
+    "category": {
+      "type": "string",
+      "enum": [
+        "food",
+        "shopping",
+        "travel",
+        "tech",
+        "apps",
+        "health",
+        "entertainment",
+        "home",
+        "beauty",
+        "other"
+      ]
+    },
+    "short_description": {
+      "type": "string",
+      "description": "Brief description for card display"
+    },
+    "seo_description": {
+      "type": "string",
+      "description": "Long-form SEO content for the coupon detail page"
+    },
+    "expiry_date": {
+      "type": "string",
+      "format": "date"
+    },
+    "landing_url": {
+      "type": "string",
+      "description": "Business website where customers redeem the code"
+    },
+    "business_name": {
+      "type": "string",
+      "description": "Display name of the business (denormalized)"
+    },
+    "business_profile_id": {
+      "type": "string",
+      "description": "Reference to BusinessProfile entity"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "pending_review",
+        "active",
+        "flagged",
+        "rejected",
+        "expired"
+      ],
+      "default": "pending_review"
+    },
+    "fee_model": {
+      "type": "string",
+      "enum": [
+        "per_redemption",
+        "flat_listing"
+      ],
+      "default": "per_redemption"
+    },
+    "fee_per_redemption": {
+      "type": "number",
+      "description": "Fee charged to business per confirmed redemption ($1 - $7.50)",
+      "minimum": 1,
+      "maximum": 7.5
+    },
+    "listing_fee": {
+      "type": "number",
+      "description": "Flat listing fee if fee_model is flat_listing"
+    },
+    "seo_slug": {
+      "type": "string",
+      "description": "URL-safe slug for SEO-friendly page URLs"
+    },
+    "seo_title": {
+      "type": "string",
+      "description": "Meta title for SEO"
+    },
+    "image_url": {
+      "type": "string",
+      "description": "Coupon or category image URL"
+    },
+    "is_curated": {
+      "type": "boolean",
+      "default": false,
+      "description": "True if added by Emberscot admin (curated deal)"
+    },
+    "ai_flagged": {
+      "type": "boolean",
+      "default": false
+    },
+    "ai_moderation_notes": {
+      "type": "string",
+      "description": "AI moderation result explanation"
+    },
+    "redemption_count": {
+      "type": "number",
+      "default": 0,
+      "description": "Denormalized count of redemptions"
+    },
+    "view_count": {
+      "type": "number",
+      "default": 0,
+      "description": "Page view counter for analytics"
+    },
+    "is_featured": {
+      "type": "boolean",
+      "default": false
+    }
+  },
+  "required": [
+    "title",
+    "promo_code",
+    "discount_type",
+    "category",
+    "landing_url",
+    "seo_slug"
+  ]
+}

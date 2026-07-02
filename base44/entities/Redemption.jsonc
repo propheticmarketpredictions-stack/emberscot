@@ -1,0 +1,52 @@
+{
+  "name": "Redemption",
+  "type": "object",
+  "properties": {
+    "coupon_id": {
+      "type": "string",
+      "description": "Reference to the Coupon entity"
+    },
+    "coupon_title": {
+      "type": "string",
+      "description": "Denormalized coupon title"
+    },
+    "business_profile_id": {
+      "type": "string",
+      "description": "Reference to BusinessProfile"
+    },
+    "business_name": {
+      "type": "string",
+      "description": "Denormalized business name"
+    },
+    "customer_id": {
+      "type": "string",
+      "description": "Reference to the User who redeemed"
+    },
+    "customer_email": {
+      "type": "string",
+      "description": "Denormalized customer email"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "pending",
+        "confirmed",
+        "self_reported"
+      ],
+      "default": "pending"
+    },
+    "fee_amount": {
+      "type": "number",
+      "description": "Fee charged to business for this redemption"
+    },
+    "confirmed_date": {
+      "type": "string",
+      "format": "date-time"
+    }
+  },
+  "required": [
+    "coupon_id",
+    "coupon_title",
+    "status"
+  ]
+}
