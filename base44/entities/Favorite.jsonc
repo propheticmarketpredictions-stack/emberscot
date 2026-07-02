@@ -1,0 +1,25 @@
+{
+  "name": "Favorite",
+  "type": "object",
+  "properties": {
+    "coupon_id": {
+      "type": "string",
+      "description": "Reference to the Coupon entity"
+    },
+    "coupon_title": {
+      "type": "string",
+      "description": "Denormalized coupon title for quick display"
+    },
+    "business_name": {
+      "type": "string",
+      "description": "Denormalized business name"
+    },
+    "category": {
+      "type": "string",
+      "description": "Denormalized coupon category for recommendation engine"
+    }
+  },
+  "required": [
+    "coupon_id"
+  ]
+}

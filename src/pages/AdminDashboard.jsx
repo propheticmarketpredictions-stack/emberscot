@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link, Navigate } from 'react-router-dom';
-import { Flame, CheckCircle, XCircle, DollarSign, TrendingUp, Tag, AlertTriangle, Flag, BarChart3, Store } from 'lucide-react';
+import { Flame, CheckCircle, XCircle, DollarSign, TrendingUp, Tag, AlertTriangle, Flag, BarChart3, Store, Download } from 'lucide-react';
 import { base44 } from '@/api/base44Client';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
@@ -40,6 +40,40 @@ export default function AdminDashboard() {
       setCoupons(cps => cps.map(c => c.id === couponId ? { ...c, status } : c));
     } catch (e) {
       console.error('Failed to update coupon:', e);
+    }
+  };
+
+  const batchUpdateStatus = async (status) => {
+    const targetIds = shownCoupons.map(c => c.id);
+    if (targetIds.length === 0) return;
+    try {
+      await base44.asServiceRole.entities.Coupon.bulkUpdate(
+        targetIds.map(id => ({ id, status }))
+      );
+      setCoupons(cps => cps.map(c => targetIds.includes(c.id) ? { ...c, status } : c));
+    } catch (e) {
+      console.error('Batch update failed:', e);
+    }
+  };
+
+  const downloadReport = async () => {
+    try {
+      const response = await base44.functions.invoke('generateMonthlyReport', {
+        business_profile_id: businesses[0]?.id || ''
+      });
+      // Handle blob download
+      if (response.data instanceof Blob) {
+        const url = URL.createObjectURL(response.data);
+        const a = window.document.createElement('a');
+        a.href = url;
+        a.download = 'emberscot_report.pdf';
+        window.document.body.appendChild(a);
+        a.click();
+        window.document.body.removeChild(a);
+        URL.revokeObjectURL(url);
+      }
+    } catch (e) {
+      console.error('Report download failed:', e);
     }
   };
 
@@ -199,6 +233,23 @@ export default function AdminDashboard() {
             </div>
           ) : (
             <div className="bg-white rounded-2xl p-6 border border-[#C94A00]/10">
+              {shownCoupons.length > 0 && (tab === 'flagged' || tab === 'pending') && (
+                <div className="flex items-center justify-end gap-2 mb-4 pb-4 border-b border-[#C94A00]/10">
+                  <span className="text-xs text-[#1A1A1A]/50 mr-auto">Batch actions for {shownCoupons.length} coupons:</span>
+                  <button
+                    onClick={() => batchUpdateStatus('active')}
+                    className="flex items-center gap-1 px-3 py-2 bg-[#1A1A1A] hover:bg-[#E8500A] text-white text-xs font-semibold rounded-lg transition-colors"
+                  >
+                    <CheckCircle className="w-3.5 h-3.5" /> Approve All
+                  </button>
+                  <button
+                    onClick={() => batchUpdateStatus('rejected')}
+                    className="flex items-center gap-1 px-3 py-2 bg-red-50 hover:bg-red-100 text-red-600 text-xs font-semibold rounded-lg transition-colors"
+                  >
+                    <XCircle className="w-3.5 h-3.5" /> Reject All
+                  </button>
+                </div>
+              )}
               {shownCoupons.length === 0 ? (
                 <div className="text-center py-12">
                   <CheckCircle className="w-12 h-12 text-[#E8500A]/20 mx-auto mb-3" />

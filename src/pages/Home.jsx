@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { Flame, TrendingUp, Clock, ArrowRight, Store, Shield, Zap } from 'lucide-react';
+import { Flame, TrendingUp, Clock, ArrowRight, Store, Shield, Zap, Heart } from 'lucide-react';
 import { base44 } from '@/api/base44Client';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
@@ -22,6 +22,7 @@ const CATEGORIES = [
 export default function Home() {
   const [featuredCoupons, setFeaturedCoupons] = useState([]);
   const [trendingCoupons, setTrendingCoupons] = useState([]);
+  const [recommendedCoupons, setRecommendedCoupons] = useState([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -33,6 +34,31 @@ export default function Home() {
         ]);
         setFeaturedCoupons(featured);
         setTrendingCoupons(trending);
+
+        // Load personalized recommendations based on user's favorite categories
+        try {
+          const authed = await base44.auth.isAuthenticated();
+          if (authed) {
+            const favs = await base44.entities.Favorite.list('-created_date', 50);
+            if (favs.length > 0) {
+              // Find the user's most-favorited category
+              const categoryCount = {};
+              favs.forEach(f => {
+                if (f.category) categoryCount[f.category] = (categoryCount[f.category] || 0) + 1;
+              });
+              const topCategory = Object.entries(categoryCount).sort((a, b) => b[1] - a[1])[0]?.[0];
+              if (topCategory) {
+                const recommended = await base44.entities.Coupon.filter(
+                  { status: 'active', category: topCategory },
+                  '-redemption_count',
+                  8
+                );
+                const favIds = new Set(favs.map(f => f.coupon_id));
+                setRecommendedCoupons(recommended.filter(c => !favIds.has(c.id)).slice(0, 4));
+              }
+            }
+          }
+        } catch (e) { /* not logged in - skip recommendations */ }
       } catch (e) {
         // If no coupons exist yet, show empty state
       }
@@ -129,6 +155,28 @@ export default function Home() {
         </div>
       ) : (
         <>
+          {recommendedCoupons.length > 0 && (
+            <section className="py-16 px-4 sm:px-6 lg:px-8 bg-white">
+              <div className="max-w-7xl mx-auto">
+                <div className="flex items-end justify-between mb-8">
+                  <div>
+                    <div className="flex items-center gap-2 mb-2">
+                      <Heart className="w-5 h-5 text-[#E8500A]" fill="currentColor" />
+                      <span className="text-sm font-semibold text-[#E8500A] uppercase tracking-wider">Recommended for You</span>
+                    </div>
+                    <h2 className="text-3xl font-bold text-[#1A1A1A]">Based on Your Favorites</h2>
+                  </div>
+                  <Link to="/favorites" className="hidden sm:flex items-center gap-1 text-sm font-medium text-[#E8500A] hover:gap-2 transition-all">
+                    My Favorites <ArrowRight className="w-4 h-4" />
+                  </Link>
+                </div>
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+                  {recommendedCoupons.map((c) => <CouponCard key={c.id} coupon={c} />)}
+                </div>
+              </div>
+            </section>
+          )}
+
           {featuredCoupons.length > 0 && (
             <section className="py-16 px-4 sm:px-6 lg:px-8 bg-white">
               <div className="max-w-7xl mx-auto">

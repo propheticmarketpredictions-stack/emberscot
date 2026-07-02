@@ -48,6 +48,8 @@ export default function SubmitCoupon() {
     short_description: '',
     seo_description: '',
     expiry_date: '',
+    active_from: '',
+    active_to: '',
     landing_url: '',
     image_url: '',
     fee_model: 'per_redemption',
@@ -291,6 +293,30 @@ export default function SubmitCoupon() {
                   onChange={e => handleChange('expiry_date', e.target.value)}
                   className="w-full px-4 py-3 rounded-xl border border-[#C94A00]/20 bg-[#FFF8F2] focus:outline-none focus:border-[#E8500A] transition-colors"
                 />
+              </div>
+            </div>
+
+            {/* Scheduling */}
+            <div className="grid sm:grid-cols-2 gap-4">
+              <div>
+                <label className="block text-sm font-medium text-[#1A1A1A] mb-1.5">Schedule Active From</label>
+                <input
+                  type="date"
+                  value={form.active_from}
+                  onChange={e => handleChange('active_from', e.target.value)}
+                  className="w-full px-4 py-3 rounded-xl border border-[#C94A00]/20 bg-[#FFF8F2] focus:outline-none focus:border-[#E8500A] transition-colors"
+                />
+                <p className="text-xs text-[#1A1A1A]/40 mt-1">Optional — deal goes live on this date</p>
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-[#1A1A1A] mb-1.5">Schedule Active To</label>
+                <input
+                  type="date"
+                  value={form.active_to}
+                  onChange={e => handleChange('active_to', e.target.value)}
+                  className="w-full px-4 py-3 rounded-xl border border-[#C94A00]/20 bg-[#FFF8F2] focus:outline-none focus:border-[#E8500A] transition-colors"
+                />
+                <p className="text-xs text-[#1A1A1A]/40 mt-1">Optional — deal auto-expires on this date</p>
               </div>
             </div>
 

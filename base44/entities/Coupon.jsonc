@@ -52,6 +52,16 @@
       "type": "string",
       "format": "date"
     },
+    "active_from": {
+      "type": "string",
+      "format": "date",
+      "description": "Optional date when the coupon becomes visible/active (scheduling)"
+    },
+    "active_to": {
+      "type": "string",
+      "format": "date",
+      "description": "Optional date when the coupon auto-expires (separate from expiry_date for scheduling)"
+    },
     "landing_url": {
       "type": "string",
       "description": "Business website where customers redeem the code"

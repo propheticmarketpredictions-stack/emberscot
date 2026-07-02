@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { Flame, Search, Menu, X, LayoutDashboard, LogOut, User as UserIcon } from 'lucide-react';
+import { Flame, Search, Menu, X, LayoutDashboard, LogOut, User as UserIcon, Heart } from 'lucide-react';
 import { base44 } from '@/api/base44Client';
 
 export default function Navbar() {
@@ -78,6 +78,15 @@ export default function Navbar() {
 
             {user ? (
               <div className="flex items-center gap-3">
+                {!dashboardLink && (
+                  <Link
+                    to="/favorites"
+                    className="p-2 rounded-lg text-[#1A1A1A]/60 hover:text-[#E8500A] hover:bg-[#E8500A]/10 transition-colors"
+                    title="My Favorites"
+                  >
+                    <Heart className="w-5 h-5" />
+                  </Link>
+                )}
                 {dashboardLink && (
                   <Link
                     to={dashboardLink}
@@ -123,6 +132,7 @@ export default function Navbar() {
           ))}
           {user ? (
             <>
+              {!dashboardLink && <Link to="/favorites" className="block py-2 text-[#E8500A] font-semibold" onClick={() => setMobileOpen(false)}>My Favorites</Link>}
               {dashboardLink && <Link to={dashboardLink} className="block py-2 text-[#E8500A] font-semibold" onClick={() => setMobileOpen(false)}>Dashboard</Link>}
               <button onClick={handleLogout} className="block py-2 text-[#1A1A1A]/60">Log Out</button>
             </>

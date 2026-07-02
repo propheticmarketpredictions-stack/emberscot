@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { Flame, Clock, Tag, ExternalLink } from 'lucide-react';
+import { Flame, Clock, Tag, Heart } from 'lucide-react';
+import { base44 } from '@/api/base44Client';
 import moment from 'moment';
 
 const DISCOUNT_BADGES = {
@@ -14,6 +15,50 @@ const DISCOUNT_BADGES = {
 export default function CouponCard({ coupon }) {
   const badge = DISCOUNT_BADGES[coupon.discount_type] || DISCOUNT_BADGES.other;
   const expired = coupon.expiry_date && moment(coupon.expiry_date).isBefore(moment());
+  const [isFavorited, setIsFavorited] = useState(false);
+  const [checkingFav, setCheckingFav] = useState(true);
+
+  useEffect(() => {
+    const checkFav = async () => {
+      try {
+        const authed = await base44.auth.isAuthenticated();
+        if (!authed) { setCheckingFav(false); return; }
+        const existing = await base44.entities.Favorite.filter({ coupon_id: coupon.id });
+        setIsFavorited(existing.length > 0);
+      } catch (e) { /* not logged in */ }
+      setCheckingFav(false);
+    };
+    checkFav();
+  }, [coupon.id]);
+
+  const toggleFavorite = async (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    try {
+      const authed = await base44.auth.isAuthenticated();
+      if (!authed) {
+        window.location.href = '/login';
+        return;
+      }
+      if (isFavorited) {
+        const existing = await base44.entities.Favorite.filter({ coupon_id: coupon.id });
+        if (existing.length > 0) {
+          await base44.entities.Favorite.delete(existing[0].id);
+        }
+        setIsFavorited(false);
+      } else {
+        await base44.entities.Favorite.create({
+          coupon_id: coupon.id,
+          coupon_title: coupon.title,
+          business_name: coupon.business_name || '',
+          category: coupon.category || ''
+        });
+        setIsFavorited(true);
+      }
+    } catch (err) {
+      console.error('Favorite toggle failed:', err);
+    }
+  };
 
   return (
     <Link
@@ -24,6 +69,19 @@ export default function CouponCard({ coupon }) {
       <div className={`absolute left-0 top-4 ${badge.color} text-[10px] font-bold tracking-wider px-2 py-1 rounded-r-md z-10`}>
         {badge.label}
       </div>
+
+      {/* Favorite heart */}
+      {!checkingFav && (
+        <button
+          onClick={toggleFavorite}
+          className="absolute right-2 top-2 z-10 p-1.5 rounded-full bg-white/80 backdrop-blur-sm hover:bg-white transition-colors"
+          aria-label={isFavorited ? 'Remove from favorites' : 'Add to favorites'}
+        >
+          <Heart
+            className={`w-4 h-4 transition-all ${isFavorited ? 'text-[#E8500A] fill-[#E8500A] scale-110' : 'text-[#1A1A1A]/40 hover:text-[#E8500A]'}`}
+          />
+        </button>
+      )}
 
       {/* Image / gradient header */}
       <div className="h-32 bg-gradient-to-br from-[#FFF8F2] to-[#FFE8D6] relative overflow-hidden">
