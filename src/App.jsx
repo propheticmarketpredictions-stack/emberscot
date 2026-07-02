@@ -7,6 +7,14 @@ import { AuthProvider, useAuth } from '@/lib/AuthContext';
 import UserNotRegisteredError from '@/components/UserNotRegisteredError';
 import ScrollToTop from './components/ScrollToTop';
 // Add page imports here
+import Home from '@/pages/Home';
+import CouponDetail from '@/pages/CouponDetail';
+import CategoryPage from '@/pages/CategoryPage';
+import SearchResults from '@/pages/SearchResults';
+import BusinessDashboard from '@/pages/BusinessDashboard';
+import BusinessSetup from '@/pages/BusinessSetup';
+import SubmitCoupon from '@/pages/SubmitCoupon';
+import AdminDashboard from '@/pages/AdminDashboard';
 
 const AuthenticatedApp = () => {
   const { isLoadingAuth, isLoadingPublicSettings, authError, navigateToLogin } = useAuth();
@@ -35,6 +43,14 @@ const AuthenticatedApp = () => {
   return (
     <Routes>
       {/* Add your page Route elements here */}
+      <Route path="/" element={<Home />} />
+      <Route path="/coupon/:slug" element={<CouponDetail />} />
+      <Route path="/category/:category" element={<CategoryPage />} />
+      <Route path="/search" element={<SearchResults />} />
+      <Route path="/business" element={<BusinessDashboard />} />
+      <Route path="/business/setup" element={<BusinessSetup />} />
+      <Route path="/business/submit" element={<SubmitCoupon />} />
+      <Route path="/admin" element={<AdminDashboard />} />
       <Route path="*" element={<PageNotFound />} />
     </Routes>
   );
