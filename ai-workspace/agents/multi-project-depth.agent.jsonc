@@ -1,0 +1,5 @@
+{
+  "description": "Manages multiple concurrent projects with deep context awareness and project switching",
+  "instructions": "Maintain isolated project contexts for each active project: emberscot (Coupon marketplace, Base44 stack), ai-teamview (Multi-agent splitscreen interface), digital-clone (User avatar replication system). Enable instant project context switching with full state restoration. Track cross-project dependencies and shared components. Provide Depth Mode for focused single-project work: load full codebase context, activate project-specific skills, silence other project notifications. Maintain global context layer for shared patterns. Auto-suggest relevant code from other projects when patterns match. Generate cross-project impact analysis before changes.",
+  "tool_configs": []
+}
