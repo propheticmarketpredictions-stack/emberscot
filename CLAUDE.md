@@ -1,46 +1,45 @@
-# CLAUDE.md - Emberscot Multi-AI Workspace
+# CLAUDE.md — Emberscot
 
-## Project Context
-This is a MERGED repository containing three integrated projects:
-1. **Emberscot** - Coupon/deals marketplace (Base44)
-2. **AI TeamView** - Split-screen multi-agent collaboration interface
-3. **Digital Clone** - User behavior replication system
+Guidance for agents working in this repo. Keep every claim here matched to a file that
+actually exists.
 
-## Activation Commands
-Use these to activate specific modes:
+## What this is
 
-| Command | Mode |
-|---------|------|
-| `/splitscreen` | Enable multi-agent teamview |
-| `/focus [project]` | Deep dive single project |
-| `/clone on` | Activate digital twin |
-| `/merge view` | See all project intersections |
+**Emberscot** — a coupon / deals marketplace, built on **Base44** with a React + Vite +
+Tailwind + shadcn/ui frontend. Businesses submit coupons (AI-moderated), customers browse,
+favorite, and redeem. That's the whole app. It is a Base44-hosted web app — nothing more.
 
-## Multi-Agent Protocol
-When in splitscreen mode:
-- Address agents with @claude, @gemini, @copilot, etc.
-- Use `#shared` for cross-agent context
-- TeamView dashboard auto-updates with agent activity
-- Digital clone maintains user preference layer
+> The multi-AI "orchestration mesh / Deck" project that used to be seeded here (the old
+> `deck-import/`, `base44/agents/*`, and the aspirational CLAUDE.md) has moved to its own
+> repo (`deck`). It does not belong in this coupon app — different stack, opposite hosting
+> needs. Do not re-add it here.
 
-## Project Boundaries
+## Stack & layout
+
+- `src/pages/` — routed pages (Home, CategoryPage, CouponDetail, SearchResults, Favorites,
+  auth pages, BusinessDashboard/Setup, SubmitCoupon, AdminDashboard).
+- `src/components/` — shared UI (Navbar, Footer, CouponCard, SearchBar, AuthLayout,
+  ProtectedRoute, ...); `src/components/ui/` is shadcn/ui.
+- `src/api/base44Client.js` — the Base44 SDK client. `src/lib/AuthContext.jsx` — auth state.
+- `src/lib/`, `src/hooks/`, `src/utils/` — helpers.
+- `base44/` — Base44 project config + entity schemas (Coupon, BusinessProfile, Redemption,
+  Favorite, User).
+
+## Build & checks
+
+Standard Vite/Base44 project. Run the relevant `package.json` scripts before finishing:
+
+```bash
+npm run dev         # frontend against the hosted Base44 backend
+npm run lint        # eslint . --quiet
+npm run typecheck   # tsc -p ./jsconfig.json
+npm run build       # vite build
+base44 dev          # full local Base44 backend + frontend (see README.md)
 ```
-emberscot/          <- Current repo (coupon marketplace)
-├── ai-teamview/    <- Splitscreen agent interface
-├── digital-clone/  <- User twin system
-└── shared/         <- Common components & utils
-```
 
-## Critical Files
-- `src/agents/AgentCoordinator.js` - Multi-agent orchestration
-- `src/teamview/Dashboard.jsx` - Live team monitoring
-- `src/clone/PreferenceEngine.js` - Digital twin core
-- `shared/context/ProjectContext.js` - Cross-project state
+## Conventions
 
-## When Working...
-- **On Emberscot**: Focus on coupon entities, business logic
-- **On TeamView**: Consider agent communication protocols
-- **On Clone**: Capture and replicate user patterns
-- **On All**: Maintain shared context synchronization
-
-See AGENTS.md for detailed agent configurations.
+- Match existing page/component patterns (Tailwind classes inline, shadcn/ui primitives).
+- Reuse the existing Base44 SDK client and Vite plugin; don't add new integration paths.
+- Never commit secrets — `.env.local` only. See `README.md` for env vars and the publish flow.
+- Pushing to this repo reflects into the Base44 Builder — keep changes focused and reviewed.

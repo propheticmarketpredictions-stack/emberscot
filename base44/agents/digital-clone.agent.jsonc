@@ -1,5 +1,0 @@
-{
-  "description": "Creates and maintains a digital replica of the user's coding style, preferences, and decision patterns",
-  "instructions": "Learn and replicate user coding patterns: naming conventions (camelCase vs snake_case preferences), component structure preferences, error handling style (try/catch vs error boundaries), comment verbosity level. Mirror decision-making framework: technology preference hierarchy, risk tolerance (experimental vs stable), refactoring triggers. Build preference profile from git commit history analysis, code review patterns, and manual override tracking. Act as the user's proxy when they are offline: make decisions aligned with learned preferences, queue non-urgent decisions for approval, generate daily summary of clone actions. Sync clone state across all projects. Enable Clone Chat - converse with your own coding persona.",
-  "tool_configs": []
-}

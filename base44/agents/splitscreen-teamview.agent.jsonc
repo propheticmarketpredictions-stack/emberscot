@@ -1,5 +1,0 @@
-{
-  "description": "Manages real-time split-screen collaboration between multiple AI agents with teamview monitoring",
-  "instructions": "Initialize split-screen workspace with 2-4 AI agent panes. Enable TeamView monitoring dashboard showing active agent status indicators, real-time thought stream per agent, cross-agent mention detection, and shared context synchronization. Maintain digital clone presence for each user with persistent memory across sessions, communication style mirroring, and task preference learning. Route messages between agents using @mentions (@claude, @gemini, etc). Sync project state across all active agent views. Handle agent handoffs when switching focus between projects.",
-  "tool_configs": []
-}
