@@ -37,6 +37,7 @@ export default function Footer() {
               <li><Link to="/about" className="text-sm text-[#FFF8F2]/80 hover:text-[#E8500A] transition-colors">About Us</Link></li>
               <li><Link to="/business" className="text-sm text-[#FFF8F2]/80 hover:text-[#E8500A] transition-colors">List Your Business</Link></li>
               <li><Link to="/how-it-works" className="text-sm text-[#FFF8F2]/80 hover:text-[#E8500A] transition-colors">How It Works</Link></li>
+              <li><Link to="/prompt-library" className="text-sm text-[#FFF8F2]/80 hover:text-[#E8500A] transition-colors">AI Prompt Library</Link></li>
               <li><Link to="/contact" className="text-sm text-[#FFF8F2]/80 hover:text-[#E8500A] transition-colors">Contact</Link></li>
             </ul>
           </div>

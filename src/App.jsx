@@ -16,6 +16,7 @@ import BusinessSetup from '@/pages/BusinessSetup';
 import SubmitCoupon from '@/pages/SubmitCoupon';
 import AdminDashboard from '@/pages/AdminDashboard';
 import Favorites from '@/pages/Favorites';
+import PromptLibrary from '@/pages/PromptLibrary';
 
 const AuthenticatedApp = () => {
   const { isLoadingAuth, isLoadingPublicSettings, authError, navigateToLogin } = useAuth();
@@ -53,6 +54,7 @@ const AuthenticatedApp = () => {
       <Route path="/business/submit" element={<SubmitCoupon />} />
       <Route path="/admin" element={<AdminDashboard />} />
       <Route path="/favorites" element={<Favorites />} />
+      <Route path="/prompt-library" element={<PromptLibrary />} />
       <Route path="*" element={<PageNotFound />} />
     </Routes>
   );

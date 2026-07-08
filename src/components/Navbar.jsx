@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { Flame, Search, Menu, X, LayoutDashboard, LogOut, User as UserIcon, Heart } from 'lucide-react';
+import { Flame, Search, Menu, X, LayoutDashboard, LogOut, User as UserIcon, Heart, Sparkles } from 'lucide-react';
 import { base44 } from '@/api/base44Client';
 
 export default function Navbar() {
@@ -76,6 +76,13 @@ export default function Navbar() {
               <Search className="w-4 h-4" /> Search
             </Link>
 
+            <Link
+              to="/prompt-library"
+              className="flex items-center gap-1.5 text-sm font-medium text-[#1A1A1A]/70 hover:text-[#E8500A] transition-colors"
+            >
+              <Sparkles className="w-4 h-4" /> Playbook
+            </Link>
+
             {user ? (
               <div className="flex items-center gap-3">
                 {!dashboardLink && (
@@ -127,6 +134,7 @@ export default function Navbar() {
       {mobileOpen && (
         <div className="md:hidden bg-[#FFF8F2] border-t border-[#E8500A]/20 px-4 py-4 space-y-3">
           <Link to="/search" className="block py-2 text-[#1A1A1A] font-medium" onClick={() => setMobileOpen(false)}>Search Coupons</Link>
+          <Link to="/prompt-library" className="block py-2 text-[#1A1A1A] font-medium" onClick={() => setMobileOpen(false)}>AI Playbook</Link>
           {['food', 'shopping', 'travel', 'tech', 'apps'].map((cat) => (
             <Link key={cat} to={`/category/${cat}`} className="block py-2 text-[#1A1A1A]/70 capitalize" onClick={() => setMobileOpen(false)}>{cat}</Link>
           ))}
